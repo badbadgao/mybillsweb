@@ -1,0 +1,29 @@
+{
+  "name": "mybillsweb",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "antd": "^3.9.2",
+    "aphrodite": "^2.2.3",
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2",
+    "react-redux": "^5.0.7",
+    "react-scripts": "1.1.5",
+    "redux": "^4.0.0",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "prepublish": "yarn run build",
+    "build": "flow-remove-types src/ -d lib/",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-flow": "^6.23.0",
+    "flow-bin": "^0.81.0",
+    "flow-remove-types": "^1.2.3"
+  }
+}
