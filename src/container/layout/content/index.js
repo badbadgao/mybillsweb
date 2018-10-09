@@ -1,11 +1,14 @@
+// @flow
+
 import React from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import { Layout, Breadcrumb, Button } from 'antd';
 
 import BillTable from './BillTable';
-import { addBill, getBills } from 'reducers/bills/actions';
+import { addBill, getBills, openAddBillModal } from 'reducers/bills/actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import AddBillModal from './AddBillModal';
 
 const { Content } = Layout;
 
@@ -15,10 +18,16 @@ const styles = StyleSheet.create({
   }
 });
 
-class ContentBody extends React.Component{
+type Props = {
+  actions: Object,
+};
+
+class ContentBody extends React.Component<Props> {
+
   handleAdd = () => {
-    this.props.actions.addBill();
-    this.props.actions.getBills();
+    this.props.actions.openAddBillModal();
+    // this.props.actions.addBill();
+    // this.props.actions.getBills();
   }
   
   render() {
@@ -34,6 +43,7 @@ class ContentBody extends React.Component{
             Add Bill
           </Button>
           <BillTable />
+          <AddBillModal/>
         </Content>
       </Layout>
     )
@@ -44,7 +54,8 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     addBill,
     getBills,
+    openAddBillModal,
   }, dispatch)
-})
+});
 
 export default connect(undefined, mapDispatchToProps)(ContentBody);
