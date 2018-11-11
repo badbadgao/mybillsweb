@@ -7,6 +7,7 @@ import { bindActionCreator, bindActionCreators } from 'redux';
 import { Modal, Button, Form } from 'antd';
 
 import { openAddBillModal, closeAddBillModal } from 'reducers/bills/actions';
+import AddBillForm from './AddBillForm';
 
 type Props = {
   actions: Object,
@@ -40,6 +41,7 @@ class AddBillModal extends React.Component<Props> {
           onCancel={this.handleCancel}
           footer={footerButtons}
         >
+          <AddBillForm />
         </Modal>
       </div>
     )
