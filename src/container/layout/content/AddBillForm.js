@@ -2,9 +2,12 @@
 
 import React from 'react';
 
-import { Form, Input } from 'antd';
+import { Form, Input, Select } from 'antd';
+
+import { isNumeric, isEmpty } from 'validator';
 
 const FormItem = Form.Item;
+const Option = Select.Option;
 
 type Props = {
   form: Object,
@@ -16,21 +19,28 @@ class AddBillForm extends React.Component<Props> {
     console.log("handleSubmit");
   }
   
-  validatorAmount = () => {
-    
+  validatorAmount = (rule, value, callback) => {
+    if(isEmpty(value, [{ ignore_whitespace:true }])) {
+      callback("Please input the amount");
+    }
+    else if(!isNumeric(value)) {
+      callback("Input is a invalid number");
+    } 
+    else {
+      callback();
+    }
   }
   
   render() {
     const { getFieldDecorator } = this.props.form;
-
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
-        sm: { span: 8 },
+        sm: { span: 4 },
       },
       wrapperCol: {
         xs: { span: 24 },
-        sm: { span: 16 },
+        sm: { span: 20 },
       },
     };
 
@@ -44,18 +54,28 @@ class AddBillForm extends React.Component<Props> {
             rules: [
               {
                 type: 'number',
-                message: 'The input is not valid amount',
-              },
-              {
                 validator: this.validatorAmount,
-              },
-              {
                 required: true,
-                message: 'Please input the amount!',
               }
             ],
           })(
             <Input />
+          )}
+        </FormItem>
+        <FormItem
+          {...formItemLayout}
+          label="Provider"
+          hasFeedback
+        >
+          {getFieldDecorator('provider', {
+            rules: [
+              { required: true, message: 'Please select a provider!' },
+            ],
+          })(
+            <Select placeholder="Please select a provider">
+              <Option value="vodaphone">Vodaphone</Option>
+              <Option value="contactEnergy">Contact Energy</Option>
+            </Select>
           )}
         </FormItem>
       </Form>
