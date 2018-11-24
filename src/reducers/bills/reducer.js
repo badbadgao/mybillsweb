@@ -18,6 +18,11 @@ const app = (state = initialState, action) => {
         ...state,
         addBillModalOpen: true,
       }
+    case constants.SET_SELECTED_BILLS:
+      return {
+        ...state,
+        selectedRowsKeys: action.payload,
+      }
     default:
       return state;
   }

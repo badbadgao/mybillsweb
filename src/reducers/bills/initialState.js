@@ -15,4 +15,5 @@ export default {
     status: 'Not Paid'
   }],
   addBillModalOpen: false,
+  selectedRowsKeys: [],
 };

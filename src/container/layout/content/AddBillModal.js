@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreator, bindActionCreators } from 'redux';
 
@@ -21,7 +21,20 @@ class AddBillModal extends React.Component<Props> {
   }
 
   handleOk = () => {
-    this.props.actions.openAddBillModal();
+    console.log('Received values of form: ');
+    const form = this.formRef.props.form;
+    form.validateFields((err, values) => {
+      if (err) {
+        return;
+      }
+      
+      console.log('Received values of form: ', values);
+      form.resetFields();
+    });
+  }
+
+  saveFormRef = (formRef) => {
+    this.formRef = formRef;
   }
 
   render() {
@@ -41,7 +54,9 @@ class AddBillModal extends React.Component<Props> {
           onCancel={this.handleCancel}
           footer={footerButtons}
         >
-          <AddBillForm />
+          <AddBillForm
+            wrappedComponentRef={this.saveFormRef}
+          />
         </Modal>
       </div>
     )

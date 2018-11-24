@@ -1,8 +1,8 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 
-import { Form, Input, Select } from 'antd';
+import { Form, Input, Select, DatePicker } from 'antd';
 
 import { isNumeric, isEmpty } from 'validator';
 
@@ -15,12 +15,8 @@ type Props = {
 
 class AddBillForm extends React.Component<Props> {
 
-  handleSubmit = () => {
-    console.log("handleSubmit");
-  }
-  
-  validatorAmount = (rule, value, callback) => {
-    if(isEmpty(value, [{ ignore_whitespace:true }])) {
+  validateAmount = (rule, value, callback) => {
+    if(!value || isEmpty(value, [{ ignore_whitespace:true }])) {
       callback("Please input the amount");
     }
     else if(!isNumeric(value)) {
@@ -30,7 +26,11 @@ class AddBillForm extends React.Component<Props> {
       callback();
     }
   }
-  
+
+  validateDueDate = (rule, value, callback) => {
+    callback();
+  }
+
   render() {
     const { getFieldDecorator } = this.props.form;
     const formItemLayout = {
@@ -45,22 +45,23 @@ class AddBillForm extends React.Component<Props> {
     };
 
     return (
-      <Form onSubmit={this.handleSubmit}>
+      <Form>
         <FormItem
-          {...formItemLayout}
-          label="Amount"
-        >
-          {getFieldDecorator('amount', {
-            rules: [
-              {
-                type: 'number',
-                validator: this.validatorAmount,
-                required: true,
-              }
-            ],
-          })(
-            <Input />
-          )}
+            {...formItemLayout}
+            label="Type"
+            hasFeedback
+          >
+         {getFieldDecorator('type', {
+              rules: [
+                { type: 'string', required: true, message: 'Please select a type!' },
+              ],
+            })(
+              <Select placeholder="Please select a bill type">
+                <Option value="water">Water</Option>
+                <Option value="electricity">Electricity</Option>
+                <Option value="internet">Internet</Option>
+              </Select>
+            )}
         </FormItem>
         <FormItem
           {...formItemLayout}
@@ -75,7 +76,40 @@ class AddBillForm extends React.Component<Props> {
             <Select placeholder="Please select a provider">
               <Option value="vodaphone">Vodaphone</Option>
               <Option value="contactEnergy">Contact Energy</Option>
+              <Option value="Spark">Spark</Option>
             </Select>
+          )}
+        </FormItem>
+        <FormItem
+          {...formItemLayout}
+          label="Amount"
+        >
+          {getFieldDecorator('amount', {
+            rules: [
+              {
+                type: 'number',
+                validator: this.validateAmount,
+                required: true,
+              }
+            ],
+          })(
+            <Input />
+          )}
+        </FormItem>
+        <FormItem
+          {...formItemLayout}
+          label="Due Date"
+        >
+          {getFieldDecorator('dueDate', {
+            rules: [
+              {
+                type: 'date',
+                validator: this.validateDueDate,
+                required: true,
+              }
+            ],
+          })(
+            <DatePicker />
           )}
         </FormItem>
       </Form>

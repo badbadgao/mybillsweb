@@ -41,3 +41,12 @@ export const closeAddBillModal = () => (
     });
   }
 );
+
+export const setSelectedBills = (selectedRowsKeys) => (
+  dispatch => {
+    dispatch({
+      type: constants.SET_SELECTED_BILLS,
+      payload: selectedRowsKeys,
+    });
+  }
+);

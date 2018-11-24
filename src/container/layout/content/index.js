@@ -2,13 +2,14 @@
 
 import React from 'react';
 import { StyleSheet, css } from 'aphrodite';
-import { Layout, Breadcrumb, Button } from 'antd';
+import { Layout, Breadcrumb, Button, Row } from 'antd';
 
 import BillTable from './BillTable';
 import { addBill, getBills, openAddBillModal } from 'reducers/bills/actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import AddBillModal from './AddBillModal';
+
 
 const { Content } = Layout;
 
@@ -39,11 +40,16 @@ class ContentBody extends React.Component<Props> {
           <Breadcrumb.Item>App</Breadcrumb.Item>
         </Breadcrumb>
         <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280 }}>
-          <Button className={css(styles.addButton)} onClick={this.handleAdd} type="primary" style={{ marginBottom: 16 }}>
+        <Row>
+          <Button  onClick={this.handleAdd} type="primary" style={{ marginBottom: 16 }}>
             Add Bill
           </Button>
-          <BillTable />
-          <AddBillModal/>
+          <Button  onClick={this.handleAdd} type="primary" style={{ marginBottom: 16, marginLeft: 8 }} disabled>
+            Delete
+          </Button>
+        </Row>
+        <BillTable />
+        <AddBillModal/>
         </Content>
       </Layout>
     )
