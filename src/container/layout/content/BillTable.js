@@ -2,17 +2,17 @@
 
 import  * as React from 'react';
 import { StyleSheet, css } from 'aphrodite';
-import { Table, Switch, Divider } from 'antd';
+import { Table, Switch, Divider, Icon, Button } from 'antd';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import { setSelectedBills } from 'reducers/bills/actions';
 
 type Props = {
-  dataSource: React.ChildrenArray<any>,
   columns: React.ChildrenArray<any>,
   selectedRowKeys: React.ChildrenArray<any>,
   actions: React.Node,
+  allBills: React.ChildrenArray<any>,
 };
 
 class BillTable extends React.Component<Props> {
@@ -52,9 +52,12 @@ class BillTable extends React.Component<Props> {
           <span>
             <Switch className={css(styles.switch)} defaultChecked />
             <Divider type="vertical" />
-            <a href="javascript:;">Edit</a>
+            {/* <a href="javascript:;">Edit</a> */}
+            {/* <Button icon="edit" ghost shape="circle" style={{ fontSize: '16px', color: '#08c' }} /> */}
+            <Icon type="edit" style={{ fontSize: '16px', color: '#08c' }} onClick={this.onclick} />
+
             <Divider type="vertical" />
-            <a href="javascript:;">Delete</a>
+            <Icon type="delete" style={{ fontSize: '16px', color: '#08c' }} />
           </span>
         ),
       }
@@ -73,7 +76,7 @@ class BillTable extends React.Component<Props> {
 
     return (
       <Table
-        dataSource={this.props.dataSource} 
+        dataSource={this.props.allBills} 
         columns={columnsConfig} 
         rowSelection={rowSelection} />
     )
@@ -81,7 +84,7 @@ class BillTable extends React.Component<Props> {
 };
 
 const mapStateToProps = state => ({
-  dataSource: state.bills,
+  allBills: state.bills,
   selectedRowKeys: state.selectedRowsKeys,
 });
 

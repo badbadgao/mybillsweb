@@ -3,17 +3,19 @@ export default {
     key: '1',
     type: 'WaterCare',
     provider: 'City Council',
-    amount: '$87',
+    amount: 'NZD87',
     dueDate: '02/10/2018',
     status: 'Not Paid'
   }, {
     key: '2',
     type: 'Electricity',
-    amount: '$202',
+    amount: 'NZD202',
     provider: 'Contact Energy',
     dueDate: '06/10/2018',
     status: 'Not Paid'
   }],
+  providers: [],
+  billTypes: [],
   addBillModalOpen: false,
   selectedRowsKeys: [],
 };

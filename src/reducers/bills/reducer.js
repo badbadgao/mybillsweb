@@ -23,6 +23,21 @@ const app = (state = initialState, action) => {
         ...state,
         selectedRowsKeys: action.payload,
       }
+    case constants.SET_BILL_TYPES:
+      return {
+        ...state,
+        billTypes: action.payload,
+      }
+    case constants.SET_PROVIDERS:
+      return {
+        ...state,
+        providers: action.payload,
+      }
+    case constants.SET_BILLS:
+      return {
+        ...state,
+        bills: action.payload,
+      }
     default:
       return state;
   }
