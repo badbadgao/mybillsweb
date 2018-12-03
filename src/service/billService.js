@@ -61,13 +61,13 @@ export const getProviders = () => new Promise((resolve, reject) => {
   },
   {
     id: 4,
-    type: ['Electricity'],
+    type: ['Electricity', 'Internet'],
     name: 'Contact Energy',
     desc: 'Contact Energy',
   },
   {
     id: 5,
-    type: ['Electricity'],
+    type: ['Electricity', 'Internet'],
     name: 'Mecrucy',
     desc: 'Mecrucy',
   },

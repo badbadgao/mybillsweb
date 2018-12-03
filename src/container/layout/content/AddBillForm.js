@@ -4,6 +4,8 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
+import { filter, find } from 'lodash';
+
 import { Form, Input, Select, DatePicker } from 'antd';
 import { isNumeric, isEmpty } from 'validator';
 
@@ -15,6 +17,13 @@ type Props = {
 };
 
 class AddBillForm extends React.Component<Props> {
+
+  state = {
+    types: this.props.types,
+    providers: this.props.providers,
+    selectedType: undefined,
+    selectedProvider: undefined,
+  };
 
   validateAmount = (rule, value, callback) => {
     if(!value || isEmpty(value, [{ ignore_whitespace:true }])) {
@@ -32,6 +41,39 @@ class AddBillForm extends React.Component<Props> {
     callback();
   }
 
+  /*The argument selectedProvider is name of the provider*/
+  handleProviderSelectChange = (selectedProviderName) => {
+    const selectedProvider = find(this.props.providers, {name: selectedProviderName});
+    const typeNamesFromProvider = selectedProvider.type;
+
+    const typesObjOfProvider = filter(
+      this.props.types, type => !!find(typeNamesFromProvider, name => type.name == name)
+    );
+
+    this.setState({
+      selectedProvider,
+      selectedType: typesObjOfProvider[0],
+    });
+
+    this.props.form.setFieldsValue({
+      type: typesObjOfProvider[0].name,
+    });
+  }
+
+   /*The argument selectedProvider is name of the provider*/
+  handleTypeSelectChange = (selectedType) => {
+    const providers = filter(this.props.providers, provider => find(provider.type, type => type ==  selectedType));
+    
+    this.props.form.setFieldsValue({
+      provider: providers[0].name,
+    });
+
+    this.setState({
+      selectedType,
+      providers: providers
+    });
+  }
+
   render() {
     const { getFieldDecorator } = this.props.form;
     const formItemLayout = {
@@ -45,10 +87,19 @@ class AddBillForm extends React.Component<Props> {
       },
     };
 
+    // const selectedProvider = this.state.selectedProider 
+
+    // const billTypes = filter(this.state.types, billType => {
+    //   if(this.state.selectedProivder)
+    // })
+
     const typeSelectComponent = (
-      <Select placeholder="Please select a bill type">
+      <Select
+        placeholder="Please select a bill type"
+        onChange={this.handleTypeSelectChange}
+      >
         {
-          this.props.billTypes.map(
+          this.state.types.map(
             type => <Option key={type.id} value={type.name}>{type.desc}</Option>
           )
         }
@@ -56,9 +107,13 @@ class AddBillForm extends React.Component<Props> {
     );
 
     const providerSelectComponent = (
-      <Select placeholder="Please select a provider!">
+      <Select
+        placeholder="Please select a provider!"
+        showSearch
+        onChange={this.handleProviderSelectChange}
+      >
       {
-        this.props.providers.map(
+        this.state.providers.map(
           provider => <Option key={provider.id} value={provider.name}>{provider.desc}</Option>
         )
       }
@@ -136,7 +191,7 @@ class AddBillForm extends React.Component<Props> {
 
 const mapStateToProps = state => ({
   providers: state.providers,
-  billTypes: state.billTypes,
+  types: state.billTypes,
 });
 
 const WrappedRegistrationForm = Form.create()(AddBillForm);
