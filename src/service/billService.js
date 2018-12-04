@@ -1,21 +1,15 @@
-export const getBills = () => new Promise((resolve, reject) => {
-  const bills = [{
-    key: '1',
-    type: 'WaterCare',
-    provider: 'City Council',
-    amount: '$87',
-    dueDate: '02/10/2018',
-    status: 'Not Paid'
-  }, {
-    key: '2',
-    type: 'Electricity',
-    amount: '$202',
-    provider: 'Contact Energy',
-    dueDate: '06/10/2018',
-    status: 'Not Paid'
-  }];
+import { fetch } from 'whatwg-fetch';
 
-  resolve(bills);
+export const getBills = () => new Promise((resolve, reject) => {
+//   var myHeaders = new Headers({
+//   'Content-Type': 'text/plain',
+//   'mode': 'cors',
+//   'credentials': 'include'
+// });
+  fetch(`http://localhost:8090/bills`)
+  .then(response => response.json())
+  .then(data => resolve(data))
+  .catch(error => console.log(error));
 });
 
 export const getBillTypes = () => new Promise((resolve, reject) => {

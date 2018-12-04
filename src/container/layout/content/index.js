@@ -10,7 +10,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import AddBillModal from './AddBillModal';
 
-
 const { Content } = Layout;
 
 const styles = StyleSheet.create({
@@ -27,6 +26,7 @@ type Props = {
 class ContentBody extends React.Component<Props> {
 
   componentDidMount() {
+    this.props.actions.getBills();
     this.props.actions.getProviders();
     this.props.actions.getBillTypes();
   }
