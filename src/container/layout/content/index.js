@@ -33,8 +33,6 @@ class ContentBody extends React.Component<Props> {
 
   handleAdd = () => {
     this.props.actions.openAddBillModal();
-    // this.props.actions.addBill();
-    // this.props.actions.getBills();
   }
 
   handleDelete = () => {

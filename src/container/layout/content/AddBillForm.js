@@ -44,19 +44,24 @@ class AddBillForm extends React.Component<Props> {
   /*The argument selectedProvider is name of the provider*/
   handleProviderSelectChange = (selectedProviderName) => {
     const selectedProvider = find(this.props.providers, {name: selectedProviderName});
-    const typeNamesFromProvider = selectedProvider.type;
+    const typesFromSelectedProvider = selectedProvider.type;
 
-    const typesObjOfProvider = filter(
-      this.props.types, type => !!find(typeNamesFromProvider, name => type.name == name)
+    const typesObjFromSelectedProvider = filter(
+      this.props.types, type => !!find(typesFromSelectedProvider, name => type.name == name)
     );
+
+    if(!find(typesObjFromSelectedProvider, {name: this.state.selectedType})) {
+      this.setState({
+        selectedType: typesObjFromSelectedProvider[0],
+      });
+
+      this.props.form.setFieldsValue({
+       type: typesObjFromSelectedProvider[0].name,
+      });
+    }
 
     this.setState({
       selectedProvider,
-      selectedType: typesObjOfProvider[0],
-    });
-
-    this.props.form.setFieldsValue({
-      type: typesObjOfProvider[0].name,
     });
   }
 
