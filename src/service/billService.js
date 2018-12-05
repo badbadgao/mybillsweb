@@ -1,15 +1,29 @@
 import { fetch } from 'whatwg-fetch';
 
 export const getBills = () => new Promise((resolve, reject) => {
-//   var myHeaders = new Headers({
-//   'Content-Type': 'text/plain',
-//   'mode': 'cors',
-//   'credentials': 'include'
-// });
   fetch(`http://localhost:8090/bills`)
   .then(response => response.json())
   .then(data => resolve(data))
   .catch(error => console.log(error));
+});
+
+export const addBill = (bill) => new Promise((resolve, reject) => {
+  fetch(`http://localhost:8090/addBill`, {
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        mode: "cors", // no-cors, cors, *same-origin
+        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: "include", // include, *same-origin, omit
+        headers: {
+            "Content-Type": "application/json; charset=utf-8",
+            // "Content-Type": "application/x-www-form-urlencoded",
+        },
+        redirect: "follow", // manual, *follow, error
+        referrer: "no-referrer", // no-referrer, *client
+        body: JSON.stringify(bill), // body data type must match "Content-Type" header
+    })
+    .then(response => response.json())
+    .then(result => resolve(result))
+    .catch(error => console.log(error));
 });
 
 export const getBillTypes = () => new Promise((resolve, reject) => {
