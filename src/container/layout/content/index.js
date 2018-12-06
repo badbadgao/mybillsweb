@@ -1,11 +1,14 @@
+// @flow
+
 import React from 'react';
 import { StyleSheet, css } from 'aphrodite';
-import { Layout, Breadcrumb, Button } from 'antd';
+import { Layout, Breadcrumb, Button, Row } from 'antd';
 
 import BillTable from './BillTable';
-import { addBill, getBills } from 'reducers/bills/actions';
+import { addBill, getBills, openAddBillModal, getProviders, getBillTypes } from 'reducers/bills/actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import AddBillModal from './AddBillModal';
 
 const { Content } = Layout;
 
@@ -15,10 +18,25 @@ const styles = StyleSheet.create({
   }
 });
 
-class ContentBody extends React.Component{
-  handleAdd = () => {
-    this.props.actions.addBill();
+type Props = {
+  actions: Object,
+  deleteButtonDisabled: boolean,
+};
+
+class ContentBody extends React.Component<Props> {
+
+  componentDidMount() {
     this.props.actions.getBills();
+    this.props.actions.getProviders();
+    this.props.actions.getBillTypes();
+  }
+
+  handleAdd = () => {
+    this.props.actions.openAddBillModal();
+  }
+
+  handleDelete = () => {
+    // this.props.actons
   }
   
   render() {
@@ -30,21 +48,39 @@ class ContentBody extends React.Component{
           <Breadcrumb.Item>App</Breadcrumb.Item>
         </Breadcrumb>
         <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280 }}>
-          <Button className={css(styles.addButton)} onClick={this.handleAdd} type="primary" style={{ marginBottom: 16 }}>
-            Add Bill
-          </Button>
+          <Row>
+            <Button  onClick={this.handleAdd} type="primary" style={{ marginBottom: 16 }}>
+              Add Bill
+            </Button>
+            <Button 
+              onClick={this.handleDelete}
+              type="primary"
+              style={{ marginBottom: 16, marginLeft: 8 }}
+              disabled={this.props.deleteButtonDisabled}
+            >
+              Delete
+            </Button>
+          </Row>
           <BillTable />
+          <AddBillModal/>
         </Content>
       </Layout>
     )
   }
 };
 
+const mapStateToProps = state => ({
+  deleteButtonDisabled: !state.selectedRowsKeys || state.selectedRowsKeys.length == 0,
+});
+
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     addBill,
     getBills,
+    openAddBillModal,
+    getProviders,
+    getBillTypes,
   }, dispatch)
-})
+});
 
-export default connect(undefined, mapDispatchToProps)(ContentBody);
+export default connect(mapStateToProps, mapDispatchToProps)(ContentBody);
