@@ -8,11 +8,12 @@ export const getBills = () => new Promise((resolve, reject) => {
 });
 
 export const addBill = (bill) => new Promise((resolve, reject) => {
+  console.log(bill);
   fetch(`http://localhost:8090/addBill`, {
         method: "POST", // *GET, POST, PUT, DELETE, etc.
         mode: "cors", // no-cors, cors, *same-origin
         cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-        credentials: "include", // include, *same-origin, omit
+        // credentials: "include", // include, *same-origin, omit
         headers: {
             "Content-Type": "application/json; charset=utf-8",
             // "Content-Type": "application/x-www-form-urlencoded",

@@ -66,15 +66,14 @@ export const setSelectedBills = (selectedRowsKeys) => (
 
 export const addBill = (bill) => (
   (dispatch, getState) => {
-    billService.addBill(bill);
-    // bill.id = getState().bills.length + 1;
-    // bill.status = "Not paid";
-    // bill.dueDate = bill.dueDate.format('DD/MM/YYYY');
-    // bill.amount = 'NZD' + numeral(bill.amount).format('0,0.00');
-    // dispatch({
-    //   type: constants.ADD_BILL,
-    //   payload: bill,
-    // });
+    billService.addBill(bill).then(updatedBills => {
+      const result = map(updatedBills, bill => {
+        return {...bill, amount: 'NZD' + bill.amount};
+      });
+      dispatch({
+        type: constants.SET_BILLS,
+        payload: result,
+      });
+    });
     dispatch(closeAddBillModal());
-    dispatch(getBills());
   });
