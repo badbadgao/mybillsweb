@@ -38,6 +38,11 @@ const app = (state = initialState, action) => {
         ...state,
         bills: action.payload,
       }
+    case constants.RESET_BILL_TABLE:
+      return {
+        ...state,
+        selectedRowsKeys: initialState.selectedRowsKeys,
+      }
     default:
       return state;
   }

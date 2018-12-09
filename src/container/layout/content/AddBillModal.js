@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 
 import { Modal, Button, Form } from 'antd';
 
-import { openAddBillModal, closeAddBillModal, addBill } from 'reducers/bills/actions';
+import { openAddBillModal, closeAddBillModal, addBill, resetSelection, } from 'reducers/bills/actions';
 import AddBillForm from './AddBillForm';
 
 type Props = {
@@ -21,7 +21,6 @@ class AddBillModal extends React.Component<Props> {
   }
 
   handleOk = () => {
-    console.log('Received values of form: ');
     const form = this.formRef.props.form;
     const { actions, ...otherProps } = this.props;
     form.validateFields((err, values) => {
@@ -70,6 +69,7 @@ const mapDispatchToProps = dispatch => ({
     openAddBillModal,
     closeAddBillModal,
     addBill,
+    resetSelection,
   }, dispatch)
 });
 
