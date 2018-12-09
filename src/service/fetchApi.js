@@ -25,7 +25,6 @@ const request = (uri, headers) => new Promise(
 			.then(response => response.json())
 			.then(result => resolve(result))
 			.catch(error => {
-				console.log(error);
 				reject(error);
 		});
 	}

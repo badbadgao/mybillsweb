@@ -64,12 +64,10 @@ export const setSelectedBills = (selectedRowsKeys) => (
   }
 );
 
-export const addBill = (bill) => (
+export const addBill = (bill, callback, handleError) => (
   (dispatch, getState) => {
     billService.addBill(bill)
       .then(bills => {
-        console.log("add bill");
-        console.log(bills);
         const result = map(bills, bill => {
           return {...bill, amount: 'NZD' + bill.amount};
         });
@@ -78,7 +76,10 @@ export const addBill = (bill) => (
           payload: result,
         });
         dispatch(closeAddBillModal());
-      }, error => console.log(error))
+        callback();
+      }, error => {
+        handleError(error);
+      })
   });
 
 export const resetSelection = () => (
