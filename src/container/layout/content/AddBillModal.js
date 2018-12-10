@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 
 import { Modal, Button, Form, message } from 'antd';
 
-import { openAddBillModal, closeAddBillModal, addBill, resetSelection, } from 'reducers/bills/actions';
+import { openAddBillModal, closeAddBillModal, addBill, clearSelection, } from 'reducers/bills/actions';
 import AddBillForm from './AddBillForm';
 
 type State = {
@@ -88,7 +88,7 @@ const mapDispatchToProps = dispatch => ({
     openAddBillModal,
     closeAddBillModal,
     addBill,
-    resetSelection,
+    clearSelection,
   }, dispatch)
 });
 

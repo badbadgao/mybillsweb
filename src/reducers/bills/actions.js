@@ -75,14 +75,18 @@ export const addBill = (bill, callback, handleError) => (
           type: constants.SET_BILLS,
           payload: result,
         });
-        dispatch(closeAddBillModal());
+        // callback to the ui when request adding bill successfully
         callback();
+
+        // clear selection and close the modal
+        dispatch(closeAddBillModal());
+        dispatch(clearSelection())
       }, error => {
         handleError(error);
       })
   });
 
-export const resetSelection = () => (
+export const clearSelection = () => (
   dispatch => {
     dispatch({
       type: constants.RESET_BILL_TABLE,
