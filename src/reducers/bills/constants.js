@@ -11,3 +11,5 @@ export const SET_PROVIDERS = 'SET_PROVIDERS';
 export const SET_BILL_TYPES = 'SET_BILL_TYPES';
 
 export const SET_BILLS = 'SET_BILLS';
+
+export const RESET_BILL_TABLE = 'RESET_BILL_TABLE';

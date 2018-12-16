@@ -17,7 +17,6 @@ type Props = {
 
 class BillTable extends React.Component<Props> {
   onSelectChange = (selectedRowKeys) => {
-    console.log(selectedRowKeys);
     this.props.actions.setSelectedBills(selectedRowKeys);
   };
 
