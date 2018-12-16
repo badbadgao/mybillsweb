@@ -21,7 +21,6 @@ class AddBillModal extends React.Component<Props> {
   }
 
   handleOk = () => {
-    console.log('Received values of form: ');
     const form = this.formRef.props.form;
     const { actions, ...otherProps } = this.props;
     form.validateFields((err, values) => {
@@ -29,7 +28,6 @@ class AddBillModal extends React.Component<Props> {
         return;
       }
       
-      console.log('Received values of form: ', values);
       actions.addBill({...values});
       form.resetFields();
     });
