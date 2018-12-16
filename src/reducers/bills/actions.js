@@ -64,16 +64,32 @@ export const setSelectedBills = (selectedRowsKeys) => (
   }
 );
 
-export const addBill = (bill) => (
+export const addBill = (bill, callback, handleError) => (
   (dispatch, getState) => {
-    billService.addBill(bill).then(updatedBills => {
-      const result = map(updatedBills, bill => {
-        return {...bill, amount: 'NZD' + bill.amount};
-      });
-      dispatch({
-        type: constants.SET_BILLS,
-        payload: result,
-      });
-    });
-    dispatch(closeAddBillModal());
+    billService.addBill(bill)
+      .then(bills => {
+        const result = map(bills, bill => {
+          return {...bill, amount: 'NZD' + bill.amount};
+        });
+        dispatch({
+          type: constants.SET_BILLS,
+          payload: result,
+        });
+        // callback to the ui when request adding bill successfully
+        callback();
+
+        // clear selection and close the modal
+        dispatch(closeAddBillModal());
+        dispatch(clearSelection())
+      }, error => {
+        handleError(error);
+      })
   });
+
+export const clearSelection = () => (
+  dispatch => {
+    dispatch({
+      type: constants.RESET_BILL_TABLE,
+    });
+  }
+);

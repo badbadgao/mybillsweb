@@ -92,12 +92,6 @@ class AddBillForm extends React.Component<Props> {
       },
     };
 
-    // const selectedProvider = this.state.selectedProider 
-
-    // const billTypes = filter(this.state.types, billType => {
-    //   if(this.state.selectedProivder)
-    // })
-
     const typeSelectComponent = (
       <Select
         placeholder="Please select a bill type"
