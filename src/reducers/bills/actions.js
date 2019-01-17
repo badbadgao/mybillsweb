@@ -86,6 +86,19 @@ export const addBill = (bill, callback, handleError) => (
       })
   });
 
+export const deleteBill = () => (
+  (dispatch, getState) => {
+    const selectedRowsKeys = getState().selectedRowsKeys;
+    console.log(selectedRowsKeys);
+    console.log(getState().bills);
+    // const selectIds = map(selectedRowsKeys, rowIndex => getState().bills[rowIndex].id);
+    billService.deleteBill(`ids=${selectedRowsKeys.join()}`)
+      .then(result => {
+        console.log(result);
+      },
+      error => console.log(error));
+  });
+
 export const clearSelection = () => (
   dispatch => {
     dispatch({

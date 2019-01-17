@@ -1,14 +1,11 @@
 import { fetch } from 'whatwg-fetch';
 import fetchApi from './fetchApi';
 
-export const getBills = () => new Promise((resolve, reject) => {
-  fetch(`http://localhost:8090/bills`)
-  .then(response => response.json())
-  .then(data => resolve(data))
-  .catch(error => console.log(error));
-});
- 
-export const addBill = bill => fetchApi.post('/addBill', bill);
+export const addBill = bill => fetchApi.post('/bill', bill);
+
+export const getBills = () => fetchApi.get('/bills');
+
+export const deleteBill = idsParam => fetchApi.delete(`/bill?${idsParam}`)
 
 export const getBillTypes = () => new Promise((resolve, reject) => {
   const billTypes = [

@@ -5,7 +5,7 @@ import { StyleSheet, css } from 'aphrodite';
 import { Layout, Breadcrumb, Button, Row } from 'antd';
 
 import BillTable from './BillTable';
-import { addBill, getBills, openAddBillModal, getProviders, getBillTypes } from 'reducers/bills/actions';
+import { addBill, getBills, openAddBillModal, getProviders, getBillTypes, deleteBill } from 'reducers/bills/actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import AddBillModal from './AddBillModal';
@@ -36,7 +36,8 @@ class ContentBody extends React.Component<Props> {
   }
 
   handleDelete = () => {
-    // this.props.actons
+    console.log("delete");
+    this.props.actions.deleteBill();
   }
   
   render() {
@@ -49,7 +50,10 @@ class ContentBody extends React.Component<Props> {
         </Breadcrumb>
         <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280 }}>
           <Row>
-            <Button  onClick={this.handleAdd} type="primary" style={{ marginBottom: 16 }}>
+            <Button
+              onClick={this.handleAdd}
+              type="primary"
+              style={{ marginBottom: 16 }}>
               Add Bill
             </Button>
             <Button 
@@ -80,6 +84,7 @@ const mapDispatchToProps = dispatch => ({
     openAddBillModal,
     getProviders,
     getBillTypes,
+    deleteBill,
   }, dispatch)
 });
 

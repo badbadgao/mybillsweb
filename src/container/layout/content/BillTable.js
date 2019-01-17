@@ -21,6 +21,11 @@ class BillTable extends React.Component<Props> {
   };
 
   render() {
+    const styles = StyleSheet.create({
+      switch: {
+        width:  '64px',
+      }
+    });
     const columnsConfig = [
       {
         title: 'Type',
@@ -49,7 +54,7 @@ class BillTable extends React.Component<Props> {
         key: 'action',
         render: (text, record) => (
           <span>
-            <Switch className={css(styles.switch)} defaultChecked />
+            <a href="javascript:;">Pay</a>
             <Divider type="vertical" />
               {/* <a href="javascript:;">Edit</a> */}
               {/* <Button icon="edit" ghost shape="circle" style={{ fontSize: '16px', color: '#08c' }} /> */}
@@ -62,11 +67,6 @@ class BillTable extends React.Component<Props> {
       }
     ];
     
-    const styles = StyleSheet.create({
-      switch: {
-        width:  '32px',
-      }
-    });
     
     const rowSelection = {
       selectedRowKeys: this.props.selectedRowKeys,
