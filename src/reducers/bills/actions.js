@@ -93,8 +93,15 @@ export const deleteBill = () => (
     console.log(getState().bills);
     // const selectIds = map(selectedRowsKeys, rowIndex => getState().bills[rowIndex].id);
     billService.deleteBill(`ids=${selectedRowsKeys.join()}`)
-      .then(result => {
-        console.log(result);
+      .then(updatedBills => {
+        const result = map(updatedBills, bill => {
+          return {...bill, amount: 'NZD' + bill.amount};
+        });
+        dispatch({
+          type: constants.SET_BILLS,
+          payload: result,
+        });
+        dispatch(clearSelection())
       },
       error => console.log(error));
   });
