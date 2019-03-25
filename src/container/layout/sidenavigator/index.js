@@ -2,23 +2,39 @@ import React from 'react';
 
 import { Layout, Menu, Icon } from 'antd';
 
+import * as menuKeys from 'constant/menuKeys';
+
 const { SubMenu } = Menu;
 const { Sider } = Layout;
 
 const SideNavi = props => {
+  const onMenuClick = ({ item, key, keyPath }) => {
+    console.log("key" + key);
+    console.log( item);
+    console.log("keyPath" + keyPath);
+  }
+
   return (
     <Sider width={200} style={{ background: '#fff' }}>
       <Menu
         mode="inline"
-        defaultSelectedKeys={['1']}
-        defaultOpenKeys={['sub1']}
+        defaultSelectedKeys={[menuKeys.MENU_OVER_DUE]}
+        defaultOpenKeys={[menuKeys.MENU_HISTORY]}
         style={{ height: '100%', borderRight: 0 }}
       >
-        <SubMenu key="hisotry" title={<span><Icon type="book" />Bill History</span>}>
-          <Menu.Item key="1">September</Menu.Item>
-          <Menu.Item key="2">August</Menu.Item>
-          <Menu.Item key="3">July</Menu.Item>
-          <Menu.Item key="4">June</Menu.Item>
+        <SubMenu key={menuKeys.MENU_HISTORY} title={<span><Icon type="book" />Bill History</span>}>
+          <Menu.Item key={menuKeys.MENU_OVER_DUE} onClick={onMenuClick}>
+            <Icon type="warning" theme="twoTone" twoToneColor="#ff0000" />
+            Over Due
+          </Menu.Item>
+          <Menu.Item key={menuKeys.MENU_DUE} onClick={onMenuClick}>
+            <Icon type="warning" theme="twoTone" twoToneColor="#f7aa04" />
+            Due
+          </Menu.Item>
+          <Menu.Item key={menuKeys.MENU_PAID} onClick={onMenuClick}>
+          <Icon type="smile" theme="twoTone" twoToneColor="#00ff00" />
+            Paid
+          </Menu.Item>
         </SubMenu>
         <SubMenu key="sub2" title={<span><Icon type="laptop" />subnav 2</span>}>
           <Menu.Item key="5">option5</Menu.Item>
