@@ -5,7 +5,10 @@ import { StyleSheet, css } from 'aphrodite';
 import { Table, Switch, Divider, Icon, Button } from 'antd';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import moment from 'moment';
+import { filter, find } from 'lodash';
 
+import * as billType from 'constant/billType';
 import { setSelectedBills } from 'reducers/bills/actions';
 
 type Props = {
@@ -20,6 +23,22 @@ class BillTable extends React.Component<Props> {
     this.props.actions.setSelectedBills(selectedRowKeys);
   };
 
+  getTableDataByBillType = () => {
+    var now = moment();
+    const tableData = filter(this.props.allBills, bill => {
+      switch (this.props.billType) {
+        case billType.DUE:
+          return !moment(bill.dueDate).isBefore(now) && bill.status == "Unpaid";
+        case billType.OVER_DUE:
+          return moment(bill.dueDate).isBefore(now) && bill.status == "Unpaid";
+        case billType.PAID:
+          return bill.status == "Paid";
+        default:
+          return true;
+      }
+    });
+    return tableData;
+  }
   render() {
     const styles = StyleSheet.create({
       switch: {
@@ -73,10 +92,11 @@ class BillTable extends React.Component<Props> {
       onChange: this.onSelectChange,
     };
 
+    const tableData = this.getTableDataByBillType();
     return (
       <Table
         rowKey='id'
-        dataSource={this.props.allBills} 
+        dataSource={tableData} 
         columns={columnsConfig} 
         rowSelection={rowSelection}
       />
@@ -87,6 +107,7 @@ class BillTable extends React.Component<Props> {
 const mapStateToProps = state => ({
   allBills: state.bills,
   selectedRowKeys: state.selectedRowsKeys,
+  billType: state.selectedBillType,
 });
 
 const mapDispatchToProps = dispatch => ({

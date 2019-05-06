@@ -1,3 +1,4 @@
+import { OVER_DUE } from 'constant/billType';
 export default {
   bills: [],
   providers: [],
@@ -6,4 +7,5 @@ export default {
   selectedRowsKeys: [],
   selectedBillType: undefined,
   selectedProvider: undefined,
+  selectedBillType: OVER_DUE,
 };

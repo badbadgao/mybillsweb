@@ -64,6 +64,15 @@ export const setSelectedBills = (selectedRowsKeys) => (
   }
 );
 
+export const setSelectedBillType = (selectedBillType) => (
+  dispatch => {
+    dispatch({
+      type: constants.SET_SELECTED_BILL_TYPE,
+      payload: selectedBillType,
+    });
+  }
+);
+
 export const addBill = (bill, callback, handleError) => (
   (dispatch, getState) => {
     billService.addBill(bill)

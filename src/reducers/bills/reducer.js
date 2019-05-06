@@ -43,6 +43,11 @@ const app = (state = initialState, action) => {
         ...state,
         selectedRowsKeys: initialState.selectedRowsKeys,
       }
+    case constants.SET_SELECTED_BILL_TYPE:
+      return {
+        ...state,
+        selectedBillType: action.payload,
+      }
     default:
       return state;
   }
