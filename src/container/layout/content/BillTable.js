@@ -7,9 +7,11 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import moment from 'moment';
 import { filter, find } from 'lodash';
+import { Modal } from 'antd';
 
 import * as billType from 'constant/billType';
-import { setSelectedBills } from 'reducers/bills/actions';
+import { setSelectedBills, payBill } from 'reducers/bills/actions';
+import PayBillModal from './PayBillModal';
 
 type Props = {
   columns: React.ChildrenArray<any>,
@@ -19,6 +21,11 @@ type Props = {
 };
 
 class BillTable extends React.Component<Props> {
+  state = {
+    showPayModal: false,
+    billToPay: undefined,
+  }
+
   onSelectChange = (selectedRowKeys) => {
     this.props.actions.setSelectedBills(selectedRowKeys);
   };
@@ -39,6 +46,30 @@ class BillTable extends React.Component<Props> {
     });
     return tableData;
   }
+
+  showPayModal = (bill) => {
+    this.setState({
+      showPayModal: true,
+      billToPay: bill,
+    });
+  }
+
+  cancelPay = () => {
+    this.setState({
+      showPayModal: false,
+    })
+  }
+
+  payBill = () => {
+    this.setState({
+      showPayModal: false,
+    })
+    this.props.actions.payBill(this.state.billToPay.id,
+      () => console.log("Bill is paid 01"),
+      (error) => console.log(error),
+    );
+  }
+
   render() {
     const styles = StyleSheet.create({
       switch: {
@@ -73,7 +104,7 @@ class BillTable extends React.Component<Props> {
         key: 'action',
         render: (text, record) => (
           <span>
-            <a href="javascript:;">Pay</a>
+            <a href="javascript:;" onClick={() => this.showPayModal(record)}>Pay</a>
             <Divider type="vertical" />
               {/* <a href="javascript:;">Edit</a> */}
               {/* <Button icon="edit" ghost shape="circle" style={{ fontSize: '16px', color: '#08c' }} /> */}
@@ -93,13 +124,28 @@ class BillTable extends React.Component<Props> {
     };
 
     const tableData = this.getTableDataByBillType();
+    const footerButtons = [
+      <Button key="Cancel" onClick={this.cancelPay}>Cancel</Button>,
+      <Button key="Pay" type="primary" onClick={this.handleOk}>
+        Pay
+      </Button>,
+    ];
     return (
-      <Table
-        rowKey='id'
-        dataSource={tableData} 
-        columns={columnsConfig} 
-        rowSelection={rowSelection}
-      />
+      <div>
+        <Table
+          rowKey='id'
+          dataSource={tableData} 
+          columns={columnsConfig} 
+          rowSelection={rowSelection}
+        />
+        <PayBillModal
+          visible={this.state.showPayModal}
+          bill={this.state.billToPay}
+          onPay={this.payBill}
+          onCancel={this.cancelPay}
+        />
+      </div>
+        
     )
   }
 }
@@ -113,6 +159,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     setSelectedBills,
+    payBill,
   }, dispatch)
 });
 

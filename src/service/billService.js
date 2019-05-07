@@ -5,6 +5,8 @@ export const addBill = bill => fetchApi.post('/bill', bill);
 
 export const getBills = () => fetchApi.get('/bills');
 
+export const payBill = (id) => fetchApi.put(`/bill/${id}`)
+
 export const deleteBill = idsParam => fetchApi.delete(`/bill?${idsParam}`)
 
 export const getBillTypes = () => new Promise((resolve, reject) => {

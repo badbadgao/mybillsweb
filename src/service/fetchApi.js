@@ -32,6 +32,7 @@ const request = (uri, headers) => new Promise(
 )
 
 const fetchApi = {
+	put: (uri, bodyObj) => request(uri, headers(PUT, bodyObj)),
 	post: (uri, bodyObj) => request(uri, headers(POST, bodyObj)),
 	get: uri => request(uri),
 	delete: uri => request(uri, headers(DELETE)),

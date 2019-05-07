@@ -95,6 +95,19 @@ export const addBill = (bill, callback, handleError) => (
       })
   });
 
+export const payBill = (billId, callback, handleError) => (
+  (dispatch, getState) => {
+    billService.payBill(billId)
+      .then(bill => {
+        console.log("Bill is paid"); 
+        callback();
+      }, error => {
+        console.log(error);
+        handleError(error);
+      })
+  }
+)
+
 export const deleteBill = () => (
   (dispatch, getState) => {
     const selectedRowsKeys = getState().selectedRowsKeys;
