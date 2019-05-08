@@ -1,21 +1,62 @@
 import * as constants from './constants';
 import * as billService from 'service/billService';
 import numeral from 'numeral';
-import { map } from 'lodash';
+import { map, forEach } from 'lodash';
+import moment from 'moment';
 
 export const getBills = () => (
   (dispatch, getState) => {
     billService.getBills().then(bills => {
-      const result = map(bills, bill => {
-        return {...bill, amount: 'NZD' + bill.amount};
-      });
-      dispatch({
-        type: constants.SET_BILLS,
-        payload: result,
-      });
+      dispatch(calculateBills(bills));
     });
   }
 );
+
+const calculateBills = (bills) => (
+  (dispatch, getState) => {
+    const finalBills = map(bills, bill => {
+      return {...bill, amount: '$' + bill.amount};
+    });
+    dispatch({
+      type: constants.SET_BILLS,
+      payload: finalBills,
+    });
+    
+    const billsOverDue = [];
+    const billsDue = [];
+    const billsPaid = [];
+    const now = moment();
+    forEach(finalBills, bill => {
+      if (bill.status == "Paid") {
+        billsPaid.push(bill);
+      }
+      else if (!moment(bill.dueDate).isBefore(now)) {
+        billsDue.push(bill);
+      }
+      else {
+        billsOverDue.push(bill);
+      }
+    });
+    dispatch(setBillsDue(billsDue));
+    dispatch(setBillsOverDue(billsOverDue));
+    dispatch(setBillsPaid(billsPaid));
+  }
+);
+
+export const setBillsDue = (billsDue) => ({
+  type: constants.SET_BILLS_DUE,
+  payload: billsDue,
+});
+
+export const setBillsOverDue = (billsOverDue) => ({
+  type: constants.SET_BILLS_OVER_DUE,
+  payload: billsOverDue,
+});
+
+export const setBillsPaid = (billsPaid) => ({
+  type: constants.SET_BILLS_PAID,
+  payload: billsPaid,
+});
 
 export const getProviders = () => (
   dispatch => {
@@ -77,13 +118,7 @@ export const addBill = (bill, callback, handleError) => (
   (dispatch, getState) => {
     billService.addBill(bill)
       .then(bills => {
-        const result = map(bills, bill => {
-          return {...bill, amount: 'NZD' + bill.amount};
-        });
-        dispatch({
-          type: constants.SET_BILLS,
-          payload: result,
-        });
+        dispatch(calculateBills(bills));
         // callback to the ui when request adding bill successfully
         callback();
 
@@ -98,11 +133,10 @@ export const addBill = (bill, callback, handleError) => (
 export const payBill = (billId, callback, handleError) => (
   (dispatch, getState) => {
     billService.payBill(billId)
-      .then(bill => {
-        console.log("Bill is paid"); 
+      .then(bills => {
+        dispatch(calculateBills(bills));
         callback();
       }, error => {
-        console.log(error);
         handleError(error);
       })
   }

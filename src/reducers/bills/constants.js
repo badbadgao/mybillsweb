@@ -15,3 +15,10 @@ export const SET_BILLS = 'SET_BILLS';
 export const RESET_BILL_TABLE = 'RESET_BILL_TABLE';
 
 export const SET_SELECTED_BILL_TYPE = 'SET_SELECTED_BILL_TYPE';
+
+export const SET_BILLS_DUE = 'SET_BILLS_DUE';
+
+export const SET_BILLS_OVER_DUE = 'SET_BILLS_OVER_DUE';
+
+export const SET_BILLS_PAID = 'SET_BILLS_PAID';
+

@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import moment from 'moment';
 import { filter, find } from 'lodash';
-import { Modal } from 'antd';
+import { Modal, message } from 'antd';
 
 import * as billType from 'constant/billType';
 import { setSelectedBills, payBill } from 'reducers/bills/actions';
@@ -31,20 +31,16 @@ class BillTable extends React.Component<Props> {
   };
 
   getTableDataByBillType = () => {
-    var now = moment();
-    const tableData = filter(this.props.allBills, bill => {
-      switch (this.props.billType) {
-        case billType.DUE:
-          return !moment(bill.dueDate).isBefore(now) && bill.status == "Unpaid";
-        case billType.OVER_DUE:
-          return moment(bill.dueDate).isBefore(now) && bill.status == "Unpaid";
-        case billType.PAID:
-          return bill.status == "Paid";
-        default:
-          return true;
-      }
-    });
-    return tableData;
+    switch (this.props.billType) {
+      case billType.DUE:
+        return this.props.billsDue;
+      case billType.OVER_DUE:
+        return this.props.billsOverDue;
+      case billType.PAID:
+        return this.props.billsPaid;
+      default:
+        return this.props.billsOverDue;;
+    }
   }
 
   showPayModal = (bill) => {
@@ -65,8 +61,8 @@ class BillTable extends React.Component<Props> {
       showPayModal: false,
     })
     this.props.actions.payBill(this.state.billToPay.id,
-      () => console.log("Bill is paid 01"),
-      (error) => console.log(error),
+      () => message.success('Bill is paid successfully!', 3),
+      (error) => message.error('Failed to pay bill, please try again', 3),
     );
   }
 
@@ -104,11 +100,14 @@ class BillTable extends React.Component<Props> {
         key: 'action',
         render: (text, record) => (
           <span>
-            <a href="javascript:;" onClick={() => this.showPayModal(record)}>Pay</a>
-            <Divider type="vertical" />
-              {/* <a href="javascript:;">Edit</a> */}
-              {/* <Button icon="edit" ghost shape="circle" style={{ fontSize: '16px', color: '#08c' }} /> */}
-              <Icon type="edit" style={{ fontSize: '16px', color: '#08c' }} onClick={this.onclick} />
+            {
+              this.props.billType !== billType.PAID
+              && <span><a href="javascript:;" onClick={() => this.showPayModal(record)}>Pay</a>
+              <Divider type="vertical" /></span>
+            }
+            {/* <a href="javascript:;">Edit</a> */}
+            {/* <Button icon="edit" ghost shape="circle" style={{ fontSize: '16px', color: '#08c' }} /> */}
+            <Icon type="edit" style={{ fontSize: '16px', color: '#08c' }} onClick={this.onclick} />
 
             <Divider type="vertical" />
             <Icon type="delete" style={{ fontSize: '16px', color: '#08c' }} />
@@ -151,7 +150,9 @@ class BillTable extends React.Component<Props> {
 }
 
 const mapStateToProps = state => ({
-  allBills: state.bills,
+  billsDue: state.billsDue,
+  billsOverDue: state.billsOverDue,
+  billsPaid: state.billsPaid,
   selectedRowKeys: state.selectedRowsKeys,
   billType: state.selectedBillType,
 });

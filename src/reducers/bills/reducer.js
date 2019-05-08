@@ -48,6 +48,21 @@ const app = (state = initialState, action) => {
         ...state,
         selectedBillType: action.payload,
       }
+    case constants.SET_BILLS_DUE:
+      return {
+        ...state,
+        billsDue: action.payload,
+      }
+    case constants.SET_BILLS_OVER_DUE:
+      return {
+        ...state,
+        billsOverDue: action.payload,
+      }
+    case constants.SET_BILLS_PAID:
+      return {
+        ...state,
+        billsPaid: action.payload,
+      }
     default:
       return state;
   }
