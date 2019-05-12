@@ -23,7 +23,14 @@ type Props = {
 };
 
 class AddBillModal extends React.Component<Props, State> {
-  formRef: ?HTMLFormElement;
+  formRef: {
+    props: {
+      form: {
+        resetFields: Function,
+        validateFields: Function,
+      }
+    }
+  };
 
   state = {
     loading: false,
