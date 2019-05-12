@@ -8,5 +8,6 @@
 
 [options]
 module.name_mapper='^reducers\(.*\)$' -> '<PROJECT_ROOT>/src/reducers/\1'
+module.name_mapper='^constant\(.*\)$' -> '<PROJECT_ROOT>/src/constant/\1'
 
 [strict]

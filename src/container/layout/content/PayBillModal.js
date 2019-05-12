@@ -6,20 +6,22 @@ import { bindActionCreators } from 'redux';
 
 import { Modal, Button, Form, message } from 'antd';
 
-import { openAddBillModal, closeAddBillModal, addBill, clearSelection, } from 'reducers/bills/actions';
+// import { openAddBillModal, closeAddBillModal, addBill, clearSelection, } from 'reducers/bills/actions';
 import AddBillForm from './AddBillForm';
 
-type State = {
-    showPayModal: boolean,
-};
-
 type Props = {
-  actions: Object,
   visible: boolean,
+  onCancel: Function,
+  onPay: Function,
+  bill?: {
+    amount: number,
+    provider: string,
+  },
 };
 
-class PayBillModal extends React.Component<Props, State> {
-    payBill = (bill) => {
+class PayBillModal extends React.Component<Props> {
+   
+    payBill = () => {
         this.props.onPay();
     }
 

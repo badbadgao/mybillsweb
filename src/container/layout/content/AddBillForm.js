@@ -14,9 +14,34 @@ const Option = Select.Option;
 
 type Props = {
   form: Object,
+  types: Array<{
+    desc: string,
+    name: string,
+    id: string,
+  }>,
+  providers: Array<{
+    desc: string,
+    name: string,
+    id: string,
+  }>,
 };
 
-class AddBillForm extends React.Component<Props> {
+type State = {
+  types: Array<{
+    desc: string,
+    name: string,
+    id: string,
+  }>,
+  providers: Array<{
+    desc: string,
+    name: string,
+    id: string,
+  }>,
+  selectedType: ?string,
+  selectedProvider: ?string,
+};
+
+class AddBillForm extends React.Component<Props, State> {
 
   state = {
     types: this.props.types,

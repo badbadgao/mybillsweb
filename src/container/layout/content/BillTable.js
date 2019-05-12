@@ -12,15 +12,38 @@ import { Modal, message } from 'antd';
 import * as billType from 'constant/billType';
 import { setSelectedBills, payBill } from 'reducers/bills/actions';
 import PayBillModal from './PayBillModal';
+import { stringify } from 'querystring';
+
+type Bill = {
+  id: number,
+  amount: number,
+  provider: string,
+};
 
 type Props = {
   columns: React.ChildrenArray<any>,
   selectedRowKeys: React.ChildrenArray<any>,
-  actions: React.Node,
-  allBills: React.ChildrenArray<any>,
+  actions: {
+    payBill: Function,
+    setSelectedBills: Function,
+  },
+  allBills: Array<Bill>,
+  billsOverDue: Array<Bill>,
+  billsPaid: Array<Bill>,
+  billsDue: Array<Bill>,
+  billType: string
 };
 
-class BillTable extends React.Component<Props> {
+type State = {
+  showPayModal: boolean,
+  billToPay?: {
+    id: number,
+    amount: number,
+    provider: string,
+  },
+}
+
+class BillTable extends React.Component<Props, State> {
   state = {
     showPayModal: false,
     billToPay: undefined,
@@ -59,11 +82,17 @@ class BillTable extends React.Component<Props> {
   payBill = () => {
     this.setState({
       showPayModal: false,
-    })
-    this.props.actions.payBill(this.state.billToPay.id,
-      () => message.success('Bill is paid successfully!', 3),
-      (error) => message.error('Failed to pay bill, please try again', 3),
-    );
+    });
+
+    if (this.state.billToPay) {
+      this.props.actions.payBill(this.state.billToPay.id,
+        () => message.success('Bill is paid successfully!', 3),
+        (error) => message.error('Failed to pay bill, please try again', 3),
+      );
+    }
+    else {
+      console.error("No bill is selected");
+    }
   }
 
   render() {
@@ -107,7 +136,7 @@ class BillTable extends React.Component<Props> {
             }
             {/* <a href="javascript:;">Edit</a> */}
             {/* <Button icon="edit" ghost shape="circle" style={{ fontSize: '16px', color: '#08c' }} /> */}
-            <Icon type="edit" style={{ fontSize: '16px', color: '#08c' }} onClick={this.onclick} />
+            <Icon type="edit" style={{ fontSize: '16px', color: '#08c' }} onClick={() => console.log("edit bill")} />
 
             <Divider type="vertical" />
             <Icon type="delete" style={{ fontSize: '16px', color: '#08c' }} />
@@ -123,12 +152,6 @@ class BillTable extends React.Component<Props> {
     };
 
     const tableData = this.getTableDataByBillType();
-    const footerButtons = [
-      <Button key="Cancel" onClick={this.cancelPay}>Cancel</Button>,
-      <Button key="Pay" type="primary" onClick={this.handleOk}>
-        Pay
-      </Button>,
-    ];
     return (
       <div>
         <Table

@@ -16,9 +16,15 @@ type State = {
 type Props = {
   actions: Object,
   visible: boolean,
+  form: {
+    resetFields: Function,
+    validateFields: Function,
+  },
 };
 
 class AddBillModal extends React.Component<Props, State> {
+  formRef: ?HTMLFormElement;
+
   state = {
     loading: false,
   }
@@ -28,31 +34,32 @@ class AddBillModal extends React.Component<Props, State> {
   }
 
   handleOk = () => {
-    const form = this.formRef.props.form;
+    const form = this.formRef ? this.formRef.props.form : undefined;
     const { actions, ...otherProps } = this.props;
     this.setState({
       loading: true
     });
-    form.validateFields((err, values) => {
-      if (err) {
-        return;
-      }
-      actions.addBill({...values},
-      () => {
-        message.success('Bill is created successfully!', 3);
-        form.resetFields();
-      },
-      error => {
-        message.error('Failed to create create bill, please try again.', 3);
-        this.setState({
-         loading: false
+    if (form) {
+      form.validateFields((err, values) => {
+        if (err) {
+          return;
+        }
+        actions.addBill({...values},
+        () => {
+          message.success('Bill is created successfully!', 3);
+          form.resetFields();
+        },
+        error => {
+          message.error('Failed to create create bill, please try again.', 3);
+          this.setState({
+           loading: false
+          });
         });
       });
-    });
-  }
-
-  saveFormRef = (formRef) => {
-    this.formRef = formRef;
+    }
+    else {
+      console.error("Form is not initialised");
+    }
   }
 
   render() {
@@ -74,7 +81,7 @@ class AddBillModal extends React.Component<Props, State> {
           maskClosable={false}
         >
           <AddBillForm
-            wrappedComponentRef={this.saveFormRef}
+            wrappedComponentRef={(form) => this.formRef = form}
           />
         </Modal>
       </div>
