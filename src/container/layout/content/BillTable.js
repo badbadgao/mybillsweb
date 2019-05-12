@@ -2,17 +2,14 @@
 
 import  * as React from 'react';
 import { StyleSheet, css } from 'aphrodite';
-import { Table, Switch, Divider, Icon, Button } from 'antd';
+import { Table, Divider, Icon, Button } from 'antd';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import moment from 'moment';
-import { filter, find } from 'lodash';
 import { Modal, message } from 'antd';
 
 import * as billType from 'constant/billType';
 import { setSelectedBills, payBill } from 'reducers/bills/actions';
 import PayBillModal from './PayBillModal';
-import { stringify } from 'querystring';
 
 type Bill = {
   id: number,

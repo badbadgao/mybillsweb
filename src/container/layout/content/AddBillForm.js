@@ -72,7 +72,7 @@ class AddBillForm extends React.Component<Props, State> {
     const typesFromSelectedProvider = selectedProvider.type;
 
     const typesObjFromSelectedProvider = filter(
-      this.props.types, type => !!find(typesFromSelectedProvider, name => type.name == name)
+      this.props.types, type => !!find(typesFromSelectedProvider, name => type.name === name)
     );
 
     if(!find(typesObjFromSelectedProvider, {name: this.state.selectedType})) {
@@ -92,7 +92,7 @@ class AddBillForm extends React.Component<Props, State> {
 
    /*The argument selectedProvider is name of the provider*/
   handleTypeSelectChange = (selectedType) => {
-    const providers = filter(this.props.providers, provider => find(provider.type, type => type ==  selectedType));
+    const providers = filter(this.props.providers, provider => find(provider.type, type => type ===  selectedType));
     
     this.props.form.setFieldsValue({
       provider: providers[0].name,
