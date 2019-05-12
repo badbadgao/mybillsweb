@@ -22,7 +22,8 @@
     "prepublish": "yarn run build",
     "build": "flow-remove-types src/ -d lib/",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "flow": "flow"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
