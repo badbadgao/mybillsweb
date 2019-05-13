@@ -8,6 +8,7 @@ import { bindActionCreators } from 'redux';
 import moment from 'moment';
 import { filter, find } from 'lodash';
 import { Modal, message } from 'antd';
+import numeral from 'numeral';
 
 import * as billType from 'constant/billType';
 import { setSelectedBills, payBill } from 'reducers/bills/actions';
@@ -110,6 +111,7 @@ class BillTable extends React.Component<Props, State> {
         title: 'Amount',
         dataIndex: 'amount',
         key: 'amount',
+        render: (amount, record) => numeral(amount).format('$0,0[.]00'),
       },{
         title: 'Provider',
         dataIndex: 'provider',
@@ -144,7 +146,6 @@ class BillTable extends React.Component<Props, State> {
         ),
       }
     ];
-    
     
     const rowSelection = {
       selectedRowKeys: this.props.selectedRowKeys,

@@ -14,19 +14,19 @@ export const getBills = () => (
 
 const calculateBills = (bills) => (
   (dispatch, getState) => {
-    const finalBills = map(bills, bill => {
-      return {...bill, amount: '$' + bill.amount};
-    });
+    // const finalBills = map(bills, bill => {
+    //   return {...bill, amount: '$' + bill.amount};
+    // });
     dispatch({
       type: constants.SET_BILLS,
-      payload: finalBills,
+      payload: bills,
     });
     
     const billsOverDue = [];
     const billsDue = [];
     const billsPaid = [];
     const now = moment();
-    forEach(finalBills, bill => {
+    forEach(bills, bill => {
       if (bill.status == "Paid") {
         billsPaid.push(bill);
       }
