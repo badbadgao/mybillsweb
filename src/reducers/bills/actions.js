@@ -1,7 +1,7 @@
 import * as constants from './constants';
 import * as billService from 'service/billService';
 import numeral from 'numeral';
-import { map, forEach } from 'lodash';
+import { map, forEach, orderBy } from 'lodash';
 import moment from 'moment';
 
 export const getBills = () => (
@@ -14,9 +14,6 @@ export const getBills = () => (
 
 const calculateBills = (bills) => (
   (dispatch, getState) => {
-    // const finalBills = map(bills, bill => {
-    //   return {...bill, amount: '$' + bill.amount};
-    // });
     dispatch({
       type: constants.SET_BILLS,
       payload: bills,
@@ -26,6 +23,7 @@ const calculateBills = (bills) => (
     const billsDue = [];
     const billsPaid = [];
     const now = moment();
+    //The bills returned are already ordered by dueDate asc
     forEach(bills, bill => {
       if (bill.status == "Paid") {
         billsPaid.push(bill);
@@ -39,7 +37,8 @@ const calculateBills = (bills) => (
     });
     dispatch(setBillsDue(billsDue));
     dispatch(setBillsOverDue(billsOverDue));
-    dispatch(setBillsPaid(billsPaid));
+    //Order the paid date desc
+    dispatch(setBillsPaid(orderBy(billsPaid, 'dueDate', 'desc')));
   }
 );
 
@@ -150,13 +149,11 @@ export const deleteBill = () => (
     // const selectIds = map(selectedRowsKeys, rowIndex => getState().bills[rowIndex].id);
     billService.deleteBill(`ids=${selectedRowsKeys.join()}`)
       .then(updatedBills => {
-        const result = map(updatedBills, bill => {
-          return {...bill, amount: 'NZD' + bill.amount};
-        });
         dispatch({
           type: constants.SET_BILLS,
-          payload: result,
+          payload: updatedBills,
         });
+        dispatch(calculateBills(updatedBills));
         dispatch(clearSelection())
       },
       error => console.log(error));

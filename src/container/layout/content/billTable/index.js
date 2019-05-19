@@ -113,10 +113,6 @@ class BillTable extends React.Component<Props, State> {
         key: 'dueDate',
       },
       {
-        title: 'Status',
-        dataIndex: 'status',
-        key: 'status',
-      }, {
         title: 'Action',
         dataIndex: 'action',
         key: 'action',
