@@ -93,6 +93,17 @@ class BillTable extends React.Component<Props, State> {
   }
 
   render() {
+    const dateColumn = billType.PAID !== this.props.billType ? 
+      {
+        title: 'Due Date',
+        dataIndex: 'dueDate',
+        key: 'dueDate',
+      } : {
+        title: 'Paid Date',
+        dataIndex: 'paidDate',
+        key: 'paidDate',
+      };
+
     const columnsConfig = [
       {
         title: 'Type',
@@ -107,11 +118,8 @@ class BillTable extends React.Component<Props, State> {
         title: 'Provider',
         dataIndex: 'provider',
         key: 'provider',
-      }, {
-        title: 'Due Date',
-        dataIndex: 'dueDate',
-        key: 'dueDate',
-      },
+      }, 
+      dateColumn,
       {
         title: 'Action',
         dataIndex: 'action',

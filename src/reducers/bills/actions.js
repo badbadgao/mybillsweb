@@ -3,6 +3,7 @@ import * as billService from 'service/billService';
 import numeral from 'numeral';
 import { map, forEach, orderBy } from 'lodash';
 import moment from 'moment';
+import { PAID } from 'constant/billType';
 
 export const getBills = () => (
   (dispatch, getState) => {
@@ -25,7 +26,7 @@ const calculateBills = (bills) => (
     const now = moment();
     //The bills returned are already ordered by dueDate asc
     forEach(bills, bill => {
-      if (bill.status == "Paid") {
+      if (bill.status === PAID) {
         billsPaid.push(bill);
       }
       else if (!moment(bill.dueDate).isBefore(now)) {
