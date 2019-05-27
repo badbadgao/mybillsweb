@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Button } from 'antd';
 
-import { openAddBillModal, deleteBill } from 'reducers/bills/actions';
+import { openAddBillModal, openDeleteBillModal } from 'reducers/bills/actions';
 
 type Props = {
     actions: {
@@ -26,7 +26,7 @@ const HeadActions = (props : Props) => {
                 Add Bill
             </Button>
             <Button 
-                onClick={props.actions.deleteBill}
+                onClick={props.actions.openDeleteBillModal}
                 type="primary"
                 style={{ marginBottom: 16, marginLeft: 8 }}
                 disabled={props.deleteButtonDisabled}
@@ -44,7 +44,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     actions: bindActionCreators({
         openAddBillModal,
-        deleteBill,
+        openDeleteBillModal,
     }, dispatch)
 });
 

@@ -7,6 +7,8 @@ export default {
   providers: [],
   billTypes: [],
   addBillModalOpen: false,
+  deleteBillModalOpen: false,
+  payBillModalOpen: false,
   selectedRowsKeys: [],
   selectedBillType: undefined,
   selectedProvider: undefined,

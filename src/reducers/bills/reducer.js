@@ -63,6 +63,26 @@ const app = (state = initialState, action) => {
         ...state,
         billsPaid: action.payload,
       }
+    case constants.CLOSE_DELETE_BILL_MODAL:
+      return {
+        ...state,
+        deleteBillModalOpen: false,
+      }
+    case constants.OPEN_DELETE_BILL_MODAL:
+      return {
+        ...state,
+        deleteBillModalOpen: true,
+      }
+    case constants.CLOSE_PAY_BILL_MODAL:
+      return {
+        ...state,
+        payBillModalOpen: false,
+      }
+    case constants.OPEN_PAY_BILL_MODAL:
+      return {
+        ...state,
+        payBillModalOpen: true,
+      }
     default:
       return state;
   }

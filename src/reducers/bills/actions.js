@@ -135,6 +135,7 @@ export const payBill = (billId, callback, handleError) => (
     billService.payBill(billId)
       .then(bills => {
         dispatch(calculateBills(bills));
+        dispatch(closePayBillModal());
         callback();
       }, error => {
         handleError(error);
@@ -145,9 +146,6 @@ export const payBill = (billId, callback, handleError) => (
 export const deleteBill = () => (
   (dispatch, getState) => {
     const selectedRowsKeys = getState().selectedRowsKeys;
-    console.log(selectedRowsKeys);
-    console.log(getState().bills);
-    // const selectIds = map(selectedRowsKeys, rowIndex => getState().bills[rowIndex].id);
     billService.deleteBill(`ids=${selectedRowsKeys.join()}`)
       .then(updatedBills => {
         dispatch({
@@ -155,7 +153,8 @@ export const deleteBill = () => (
           payload: updatedBills,
         });
         dispatch(calculateBills(updatedBills));
-        dispatch(clearSelection())
+        dispatch(clearSelection());
+        dispatch(closeDeleteBillModal())
       },
       error => console.log(error));
   });
@@ -167,3 +166,19 @@ export const clearSelection = () => (
     });
   }
 );
+
+export const closeDeleteBillModal = () => ({
+  type: constants.CLOSE_DELETE_BILL_MODAL,
+});
+
+export const openDeleteBillModal = () => ({
+  type: constants.OPEN_DELETE_BILL_MODAL,
+});
+
+export const closePayBillModal = () => ({
+  type: constants.CLOSE_PAY_BILL_MODAL,
+});
+
+export const openPayBillModal = () => ({
+  type: constants.OPEN_PAY_BILL_MODAL,
+});
