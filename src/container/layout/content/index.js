@@ -8,7 +8,7 @@ import { StyleSheet, css } from 'aphrodite';
 import { Layout, Breadcrumb} from 'antd';
 
 import BillTable from './billTable';
-import AddBillModal from './addBillModal';
+import AddBillModal from './modals/addBill';
 import HeadBar from './headBar';
 import { addBill, getBills, getProviders, getBillTypes } from 'reducers/bills/actions';
 const { Content } = Layout;
