@@ -137,7 +137,6 @@ class BillTable extends React.Component<Props, State> {
         <PayBillModal
           bill={this.state.billToPay}
         />
-        <DeleteBillModal />
       </div>
         
     )

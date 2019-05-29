@@ -9,6 +9,7 @@ import { Layout, Breadcrumb} from 'antd';
 
 import BillTable from './billTable';
 import AddBillModal from './modals/addBill';
+import DeleteBillModal from './modals/deleteBill';
 import HeadBar from './headBar';
 import { addBill, getBills, getProviders, getBillTypes } from 'reducers/bills/actions';
 const { Content } = Layout;
@@ -43,7 +44,8 @@ class ContentBody extends React.Component<Props> {
         <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280 }}>
           <HeadBar />
           <BillTable />
-          <AddBillModal/>
+          <AddBillModal  />
+          <DeleteBillModal />
         </Content>
       </Layout>
     )
