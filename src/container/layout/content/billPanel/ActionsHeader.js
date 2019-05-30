@@ -11,11 +11,12 @@ type Props = {
     actions: {
         openAddBillModal: Function,
         deleteBill: Function,
+        openDeleteBillModal: Function,
     },
     deleteButtonDisabled: boolean,
 };
 
-const HeadActions = (props : Props) => {
+const ActionsHeader = (props : Props) => {
     return (
         <div>
             <Button
@@ -48,4 +49,4 @@ const mapDispatchToProps = (dispatch) => ({
     }, dispatch)
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(HeadActions);
+export default connect(mapStateToProps, mapDispatchToProps)(ActionsHeader);

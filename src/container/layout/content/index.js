@@ -7,11 +7,8 @@ import { bindActionCreators } from 'redux';
 import { StyleSheet, css } from 'aphrodite';
 import { Layout, Breadcrumb} from 'antd';
 
-import BillTable from './billTable';
-import AddBillModal from './modals/addBill';
-import DeleteBillModal from './modals/deleteBill';
-import HeadBar from './headBar';
-import { addBill, getBills, getProviders, getBillTypes } from 'reducers/bills/actions';
+import BillPanel from './billPanel';
+import { getProviders, getBillTypes } from 'reducers/bills/actions';
 const { Content } = Layout;
 
 const styles = StyleSheet.create({
@@ -26,13 +23,6 @@ type Props = {
 };
 
 class ContentBody extends React.Component<Props> {
-
-  componentDidMount() {
-    this.props.actions.getBills();
-    this.props.actions.getProviders();
-    this.props.actions.getBillTypes();
-  }
-
   render() {
     return(
       <Layout style={{ padding: '0 24px 24px' }}>
@@ -42,10 +32,7 @@ class ContentBody extends React.Component<Props> {
           <Breadcrumb.Item>App</Breadcrumb.Item> */}
         </Breadcrumb>
         <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280 }}>
-          <HeadBar />
-          <BillTable />
-          <AddBillModal  />
-          <DeleteBillModal />
+          <BillPanel />
         </Content>
       </Layout>
     )
@@ -58,8 +45,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
-    addBill,
-    getBills,
     getProviders,
     getBillTypes,
   }, dispatch)

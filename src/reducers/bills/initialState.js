@@ -9,6 +9,7 @@ export default {
   addBillModalOpen: false,
   deleteBillModalOpen: false,
   payBillModalOpen: false,
+  selectedBillToPay: undefined,
   selectedRowsKeys: [],
   selectedBillType: undefined,
   selectedProvider: undefined,

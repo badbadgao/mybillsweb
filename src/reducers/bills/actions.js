@@ -182,3 +182,8 @@ export const closePayBillModal = () => ({
 export const openPayBillModal = () => ({
   type: constants.OPEN_PAY_BILL_MODAL,
 });
+
+export const setSelectedBillToPay = (bill) => ({
+  type: constants.SET_SELECTED_BILL_TO_PAY,
+  payload: bill,
+})

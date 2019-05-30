@@ -10,12 +10,20 @@ import numeral from 'numeral';
 
 import { closePayBillModal, payBill } from 'reducers/bills/actions';
 
+type Bill = {
+  id: number,
+  amount: number,
+  provider: string,
+};
+
 type Props = {
   visible: boolean,
   onPay: Function,
   actions: {
     onCancel: Function,
+    payBill: Function,
   },
+  bill: Bill,
 };
 
 const PayBillModal = (props: Props) => {
@@ -59,6 +67,7 @@ const PayBillModal = (props: Props) => {
 
 const mapStateToProps = (state) => ({
   visible: state.payBillModalOpen,
+  bill: state.selectedBillToPay,
 });
 
 const mapDispatchToProps = (dispatch) => ({

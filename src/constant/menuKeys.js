@@ -5,3 +5,5 @@ export const MENU_OVER_DUE = 'OVER_DUE';
 export const MENU_DUE = 'DUE';
 
 export const MENU_PAID = 'PAID';
+
+export const MENU_PROVIDERS = 'providers';

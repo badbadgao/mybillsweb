@@ -15,6 +15,9 @@ const styles = StyleSheet.create({
   },
 });
 
+type Props = {
+};
+
 const MainLayout = (props: Props) => {
   return (
       <Layout>

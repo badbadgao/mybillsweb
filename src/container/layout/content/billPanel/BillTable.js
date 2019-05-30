@@ -9,9 +9,8 @@ import { Modal, message } from 'antd';
 import numeral from 'numeral';
 
 import * as billType from 'constant/billType';
-import { setSelectedBills, payBill, openPayBillModal } from 'reducers/bills/actions';
-import PayBillModal from '../modals/payBill';
-import DeleteBillModal from '../modals/deleteBill';
+import { setSelectedBills, payBill, openPayBillModal, setSelectedBillToPay} from 'reducers/bills/actions';
+import DeleteBillModal from './modals/DeleteBillModal';
 
 type Bill = {
   id: number,
@@ -25,27 +24,16 @@ type Props = {
   actions: {
     payBill: Function,
     setSelectedBills: Function,
+    openPayBillModal: Function,
   },
   billsOverDue: Array<Bill>,
   billsPaid: Array<Bill>,
   billsDue: Array<Bill>,
-  billType: string
+  billType: string,
+  billToPay?: Bill,
 };
 
-type State = {
-  showPayModal: boolean,
-  billToPay?: {
-    id: number,
-    amount: number,
-    provider: string,
-  },
-}
-
-class BillTable extends React.Component<Props, State> {
-  state = {
-    billToPay: undefined,
-  }
-
+class BillTable extends React.Component<Props> {
   onSelectChange = (selectedRowKeys) => {
     this.props.actions.setSelectedBills(selectedRowKeys);
   };
@@ -64,10 +52,8 @@ class BillTable extends React.Component<Props, State> {
   }
 
   showPayModal = (bill) => {
-    this.setState({
-      billToPay: bill,
-    });
     this.props.actions.openPayBillModal();
+    this.props.actions.setSelectedBillToPay(bill);
   }
 
   render() {
@@ -134,11 +120,7 @@ class BillTable extends React.Component<Props, State> {
           columns={columnsConfig} 
           rowSelection={rowSelection}
         />
-        <PayBillModal
-          bill={this.state.billToPay}
-        />
-      </div>
-        
+      </div> 
     )
   }
 }
@@ -156,6 +138,7 @@ const mapDispatchToProps = dispatch => ({
     setSelectedBills,
     payBill,
     openPayBillModal,
+    setSelectedBillToPay,
   }, dispatch)
 });
 

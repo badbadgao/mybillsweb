@@ -83,6 +83,11 @@ const app = (state = initialState, action) => {
         ...state,
         payBillModalOpen: true,
       }
+    case constants.SET_SELECTED_BILL_TO_PAY:
+        return {
+          ...state,
+          selectedBillToPay: action.payload,
+        }
     default:
       return state;
   }
