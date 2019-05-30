@@ -23,8 +23,12 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  actions: Object,
-  deleteButtonDisabled: boolean,
+  actions: {
+    addBill: Function,
+    getBills: Function,
+    getProviders: Function,
+    getBillTypes: Function,
+  },
 };
 
 class BillPanel extends React.Component<Props> {
@@ -48,10 +52,6 @@ class BillPanel extends React.Component<Props> {
   }
 };
 
-const mapStateToProps = state => ({
-  // deleteButtonDisabled: !state.selectedRowsKeys || state.selectedRowsKeys.length == 0,
-});
-
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     addBill,
@@ -61,4 +61,4 @@ const mapDispatchToProps = dispatch => ({
   }, dispatch)
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(BillPanel);
+export default connect(undefined, mapDispatchToProps)(BillPanel);
