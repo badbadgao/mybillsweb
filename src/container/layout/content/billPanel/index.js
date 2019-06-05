@@ -11,7 +11,7 @@ import BillTable from './BillTable';
 import AddBillModal from './modals/addBillModal';
 import DeleteBillModal from './modals/DeleteBillModal';
 import PayBillModal from './modals/PayBillModal';
-import HeadBar from './ActionsHeader';
+import ActionsHeader from './ActionsHeader';
 import { addBill, getBills, getProviders, getBillTypes } from 'reducers/bills/actions';
 import { Record } from 'immutable';
 const { Content } = Layout;
@@ -42,7 +42,7 @@ class BillPanel extends React.Component<Props> {
   render() {
     return(
       <React.Fragment>
-        <HeadBar />
+        <ActionsHeader />
         <BillTable />
         <AddBillModal />
         <DeleteBillModal />
