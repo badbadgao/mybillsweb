@@ -1,5 +1,6 @@
 import * as constants from './constants';
 import * as billService from 'service/billService';
+import * as expService from 'service/expService';
 import numeral from 'numeral';
 import { map, forEach, orderBy } from 'lodash';
 import moment from 'moment';
@@ -9,6 +10,14 @@ export const getBills = () => (
   (dispatch, getState) => {
     billService.getBills().then(bills => {
       dispatch(calculateBills(bills));
+    });
+  }
+);
+
+export const getAbout = () => (
+  (dispatch, getState) => {
+    expService.getAbout().then(result => {
+      console.log(result);
     });
   }
 );
