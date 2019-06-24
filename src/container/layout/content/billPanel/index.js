@@ -11,8 +11,8 @@ import BillTable from './BillTable';
 import AddBillModal from './modals/addBillModal';
 import DeleteBillModal from './modals/DeleteBillModal';
 import PayBillModal from './modals/PayBillModal';
-import ActionsHeader from './ActionsHeader';
-import { addBill, getBills, getProviders, getBillTypes } from 'reducers/bills/actions';
+import HeadBar from './ActionsHeader';
+import { addBill, getBills, getProviders, getBillTypes, getAbout } from 'reducers/bills/actions';
 import { Record } from 'immutable';
 const { Content } = Layout;
 
@@ -28,6 +28,7 @@ type Props = {
     getBills: Function,
     getProviders: Function,
     getBillTypes: Function,
+    getAbout: Function,
   },
 };
 
@@ -37,12 +38,13 @@ class BillPanel extends React.Component<Props> {
     this.props.actions.getBills();
     this.props.actions.getProviders();
     this.props.actions.getBillTypes();
+    this.props.actions.getAbout();
   }
 
   render() {
     return(
       <React.Fragment>
-        <ActionsHeader />
+        <HeadBar />
         <BillTable />
         <AddBillModal />
         <DeleteBillModal />
@@ -58,6 +60,7 @@ const mapDispatchToProps = dispatch => ({
     getBills,
     getProviders,
     getBillTypes,
+    getAbout,
   }, dispatch)
 });
 
