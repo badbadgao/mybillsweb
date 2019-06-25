@@ -145,12 +145,23 @@ export const payBill = (billId, callback, handleError) => (
       .then(bills => {
         dispatch(calculateBills(bills));
         dispatch(closePayBillModal());
+        dispatch(sendEmailConfirmation(bills[0]));
         callback();
       }, error => {
         handleError(error);
       })
   }
 )
+
+export const sendEmailConfirmation = (bill) => (
+  (dispatch, getState) => {
+    console.log(bill);
+    expService.sendEmailConfirmation(bill)
+      .then(result => {
+        console.log(result);
+      }, error => console.log(error));
+  }
+);
 
 export const deleteBill = () => (
   (dispatch, getState) => {
