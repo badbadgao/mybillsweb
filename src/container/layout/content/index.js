@@ -11,7 +11,7 @@ import BillPanel from './billPanel';
 import { getProviders, getBillTypes } from 'reducers/bills/actions';
 const { Content } = Layout;
 
-const ContentBody = () => (
+const ContentBody = (props) => (
   <Layout style={{ padding: '0 24px 24px' }}>
     <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280 }}>
       <BillPanel />
