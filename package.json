@@ -5,7 +5,7 @@
   "dependencies": {
     "antd": "^3.9.2",
     "aphrodite": "^2.2.3",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.19",
     "numeral": "^2.0.6",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
